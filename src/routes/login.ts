@@ -23,5 +23,8 @@ export function loginScript() {
   if (header) hideElement(header)
   if (subheader) hideElement(subheader)
 
+  // Rather than this, lets create a new container using lit
+  // Then move this into the new container
+  // Better than manual re-arranging
   mainContent.style.height = "100%"
 }
