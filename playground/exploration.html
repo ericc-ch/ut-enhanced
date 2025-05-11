@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom scrollbar for better aesthetics (optional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Tailwind gray-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Tailwind gray-400 */
+        }
+        .course-card { /* Renamed from course-card-hover to apply base styles */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer; /* Indicate cards are clickable */
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .task-list-scrollable {
+            max-height: 160px; /* Adjusted height slightly */
+            overflow-y: auto;
+        }
+        .upcoming-tasks-scrollable {
+            max-height: 400px; /* Adjust as needed for main upcoming tasks list */
+            overflow-y: auto;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#60a5fa', // blue-400
+                            DEFAULT: '#3b82f6', // blue-500
+                            dark: '#2563eb', // blue-600
+                        },
+                        secondary: '#10b981', // emerald-500
+                        accent: '#f59e0b', // amber-500
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-primary-DEFAULT" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m0 0A8.49 D 8.49 0 0112 21.747M12 6.253c0-1.657-1.343-3-3-3s-3 1.343-3 3c0 1.306.836 2.417 2 2.829V18.25m8-11.997c0-1.657-1.343-3-3-3s-3 1.343-3 3c0 1.306.836 2.417 2 2.829V18.25m-4 .503c0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.306-.836-2.417-2-2.829V6.253" />
+                        </svg>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="bg-primary-DEFAULT text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Dashboard</a>
+                            <a href="#" class="text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">My Courses</a>
+                            <a href="#" class="text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Catalog</a>
+                            <a href="#" class="text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button type="button" class="p-1 bg-white rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-primary-light">
+                            <span class="sr-only">View notifications</span>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </button>
+                        <div class="ml-3 relative">
+                            <div>
+                                <button type="button" class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-primary-light" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                    <span class="sr-only">Open user menu</span>
+                                    <img class="h-8 w-8 rounded-full object-cover" src="https://picsum.photos/seed/useravatar/100/100" alt="User avatar">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-light" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold leading-tight text-gray-900">
+                Welcome back, Alex!
+            </h1>
+            <p class="mt-1 text-sm text-gray-500">Here's your learning dashboard.</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <div class="lg:col-span-2 space-y-8">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-semibold text-gray-800">My Enrolled Courses</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden course-card flex flex-col">
+                                <img class="w-full h-48 object-cover" src="https://picsum.photos/seed/webdevcourse/600/400" alt="Web Development Course Thumbnail">
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2 hover:text-primary-DEFAULT transition-colors">Introduction to Web Development</h3>
+                                    <p class="text-sm text-gray-600 mb-1">Dr. Angela Yu</p>
+                                    <p class="text-xs text-gray-500 mb-4">12 Modules • 24h 30m total</p>
+
+                                    <div class="mb-3">
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm font-medium text-primary-DEFAULT">Progress</span>
+                                            <span class="text-sm font-medium text-primary-DEFAULT">65%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div class="bg-primary-DEFAULT h-2.5 rounded-full" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 mb-3 flex-grow">
+                                        <h4 class="text-sm font-semibold text-gray-700 mb-2">Remaining Tasks:</h4>
+                                        <ul class="space-y-2 text-xs text-gray-600 task-list-scrollable pr-2">
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Module 8 Quiz</span>
+                                                <span class="text-red-500 font-medium">Due: May 15</span>
+                                            </li>
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Project Submission: Phase 2</span>
+                                                <span class="text-red-500 font-medium">Due: May 22</span>
+                                            </li>
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Final Exam</span>
+                                                <span class="text-gray-500">Due: May 30</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden course-card flex flex-col">
+                                <img class="w-full h-48 object-cover" src="https://picsum.photos/seed/datasciencecourse/600/400" alt="Data Science Course Thumbnail">
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2 hover:text-secondary transition-colors">Data Science Fundamentals</h3>
+                                    <p class="text-sm text-gray-600 mb-1">Prof. Andrew Ng</p>
+                                    <p class="text-xs text-gray-500 mb-4">10 Modules • 18h 15m total</p>
+
+                                    <div class="mb-3">
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm font-medium text-secondary">Progress</span>
+                                            <span class="text-sm font-medium text-secondary">30%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div class="bg-secondary h-2.5 rounded-full" style="width: 30%"></div>
+                                        </div>
+                                    </div>
+                                     <div class="mt-4 mb-3 flex-grow">
+                                        <h4 class="text-sm font-semibold text-gray-700 mb-2">Remaining Tasks:</h4>
+                                        <ul class="space-y-2 text-xs text-gray-600 task-list-scrollable pr-2">
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Assignment 2: Data Cleaning</span>
+                                                <span class="text-red-500 font-medium">Due: May 20</span>
+                                            </li>
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Quiz: Statistical Methods</span>
+                                                <span class="text-gray-500">Due: May 25</span>
+                                            </li>
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Module 5: Machine Learning Basics</span>
+                                                <span class="text-gray-500">No Due Date</span>
+                                            </li>
+                                             <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Module 6: Capstone Project Proposal</span>
+                                                <span class="text-gray-500">Due: June 05</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="bg-white rounded-xl shadow-lg overflow-hidden course-card flex flex-col">
+                                <img class="w-full h-48 object-cover opacity-70" src="https://picsum.photos/seed/pythoncourse/600/400" alt="Python Course Thumbnail">
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2 hover:text-green-600 transition-colors">Python for Beginners</h3>
+                                    <p class="text-sm text-gray-600 mb-1">Mr. John Doe</p>
+                                    <p class="text-xs text-gray-500 mb-4">8 Modules • 15h 00m total</p>
+
+                                    <div class="mb-3">
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm font-medium text-green-600">Completed!</span>
+                                            <span class="text-sm font-medium text-green-600">100%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                     <div class="mt-4 mb-2 flex-grow">
+                                        <p class="text-sm font-medium text-green-700">Well done! You've completed this course.</p>
+                                        <p class="text-xs text-gray-500 mt-1">View Certificate or Review Content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden course-card flex flex-col">
+                                <img class="w-full h-48 object-cover" src="https://picsum.photos/seed/marketingcourse/600/400" alt="Digital Marketing Course Thumbnail">
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2 hover:text-purple-600 transition-colors">Digital Marketing Essentials</h3>
+                                    <p class="text-sm text-gray-600 mb-1">Ms. Sarah Lee</p>
+                                    <p class="text-xs text-gray-500 mb-4">15 Modules • 30h 00m total</p>
+                                    <div class="mb-3">
+                                        <div class="flex justify-between mb-1">
+                                            <span class="text-sm font-medium text-purple-500">Progress</span>
+                                            <span class="text-sm font-medium text-purple-500">10%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div class="bg-purple-500 h-2.5 rounded-full" style="width: 10%"></div>
+                                        </div>
+                                    </div>
+                                     <div class="mt-4 mb-3 flex-grow">
+                                        <h4 class="text-sm font-semibold text-gray-700 mb-2">Remaining Tasks:</h4>
+                                        <ul class="space-y-2 text-xs text-gray-600 task-list-scrollable pr-2">
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Module 2: SEO Basics</span>
+                                                <span class="text-gray-500">No Due Date</span>
+                                            </li>
+                                            <li class="flex justify-between items-center p-2 bg-gray-50 rounded-md hover:bg-gray-100">
+                                                <span>Quiz: Introduction to Marketing</span>
+                                                <span class="text-red-500 font-medium">Due: May 18</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">All Upcoming Tasks & Deadlines</h2>
+                        <div class="upcoming-tasks-scrollable pr-2">
+                            <ul class="space-y-4">
+                                <li class="flex items-start space-x-3 p-3 bg-amber-50 rounded-lg border border-amber-200 hover:shadow-md transition-shadow">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-5 h-5 text-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-900">Module 8 Quiz</h4>
+                                        <p class="text-xs text-gray-600">Course: Intro to Web Development</p>
+                                        <p class="text-xs text-red-600 font-medium">Due: May 15, 2025 (3 days)</p>
+                                        <a href="#" class="text-xs text-primary-DEFAULT hover:underline">Go to Quiz</a>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-3 p-3 bg-purple-50 rounded-lg border border-purple-200 hover:shadow-md transition-shadow">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-5 h-5 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-900">Quiz: Introduction to Marketing</h4>
+                                        <p class="text-xs text-gray-600">Course: Digital Marketing Essentials</p>
+                                        <p class="text-xs text-red-600 font-medium">Due: May 18, 2025 (6 days)</p>
+                                        <a href="#" class="text-xs text-primary-DEFAULT hover:underline">Start Quiz</a>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-3 p-3 bg-sky-50 rounded-lg border border-sky-200 hover:shadow-md transition-shadow">
+                                   <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-5 h-5 text-sky-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-900">Submit Assignment 2: Data Cleaning</h4>
+                                        <p class="text-xs text-gray-600">Course: Data Science Fundamentals</p>
+                                        <p class="text-xs text-red-600 font-medium">Due: May 20, 2025 (8 days)</p>
+                                        <a href="#" class="text-xs text-primary-DEFAULT hover:underline">View Assignment</a>
+                                    </div>
+                                </li>
+                                 <li class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                          <path fill-rule="evenodd" d="M5.05 3.636a1 1 0 011.414 0L10 7.172l3.536-3.536a1 1 0 111.414 1.414L11.414 8.586l3.536 3.535a1 1 0 11-1.414 1.415L10 10.001l-3.536 3.535a1 1 0 01-1.414-1.415L8.586 8.586 5.05 5.05a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-900">Project Submission: Phase 2</h4>
+                                        <p class="text-xs text-gray-600">Course: Intro to Web Development</p>
+                                        <p class="text-xs text-red-500 font-medium">Due: May 22, 2025</p>
+                                        <a href="#" class="text-xs text-primary-DEFAULT hover:underline">Submit Project</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Announcements</h2>
+                        <ul class="space-y-3">
+                            <li class="text-sm text-gray-700 hover:text-primary-DEFAULT cursor-pointer">
+                                <span class="font-semibold text-primary-dark">New:</span> Guest lecture on AI Ethics next Friday!
+                            </li>
+                            <li class="text-sm text-gray-700 hover:text-primary-DEFAULT cursor-pointer">
+                                System maintenance scheduled for May 12th, 2 AM.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+            &copy; 2025 Your Learning Platform. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
+
