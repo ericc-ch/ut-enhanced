@@ -1,12 +1,4 @@
-const topPanel = document.querySelector<HTMLElement>("#top-panel")
-if (topPanel) {
-  topPanel.style.display = "none"
-}
-
-const bottomPanel = document.querySelector<HTMLElement>("#bottom-info")
-if (bottomPanel) {
-  bottomPanel.style.display = "none"
-}
+import { loginRegex, loginScript } from "./routes/login"
 
 const completionProgress = document.querySelector(
   'section[data-block="completion_progress"]',
@@ -43,6 +35,7 @@ const routeScriptMap = new Map<RegExp, (path: string) => void>()
 routeScriptMap.set(/^\/$/, loadHomepageScript) // Matches the root path exactly: /
 routeScriptMap.set(/^\/profile\/.*$/, loadUserProfileScript) // Matches any path starting with /profile/
 routeScriptMap.set(/^\/settings$/, loadSettingsScript) // Matches /settings exactly
+routeScriptMap.set(loginRegex, loginScript) // Matches /login/index.php exactly
 
 // 3. Implement a route handler function
 function handleRouteChange(): void {
