@@ -1,7 +1,11 @@
 const topPanel = document.querySelector<HTMLElement>("#top-panel")
-
 if (topPanel) {
   topPanel.style.display = "none"
+}
+
+const bottomPanel = document.querySelector<HTMLElement>("#bottom-info")
+if (bottomPanel) {
+  bottomPanel.style.display = "none"
 }
 
 const completionProgress = document.querySelector(
@@ -68,20 +72,3 @@ if (document.readyState === "loading") {
   // DOMContentLoaded has already fired
   handleRouteChange()
 }
-
-// 5. Listen for navigation events (e.g., browser back/forward)
-globalThis.addEventListener("popstate", handleRouteChange)
-
-// Example of how you might trigger it after a programmatic navigation in an SPA:
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function navigateTo(path: string): void {
-  history.pushState({ path }, "", path)
-  // Manually call the handler because pushState doesn't fire popstate
-  handleRouteChange()
-}
-
-// Example usage for programmatic navigation (for testing in browser console):
-// navigateTo('/profile/user123');
-// navigateTo('/settings');
-// navigateTo('/');
-// navigateTo('/unknown-path');
