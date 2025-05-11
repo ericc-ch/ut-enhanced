@@ -10,18 +10,28 @@ const entry = path.join(import.meta.dirname, "..", "src", "main.ts")
 
 const createDir = () => fs.mkdirSync(outdir, { recursive: true })
 const deleteDir = () => {
-  fs.rmSync(outdir, { recursive: true, force: true })
+  if (!fs.existsSync(outdir)) return
+
+  for (const file of fs.readdirSync(outdir)) {
+    const curPath = path.join(outdir, file)
+    fs.rmSync(curPath, { recursive: true, force: true })
+  }
 }
 
 try {
-  deleteDir()
   createDir()
+  deleteDir()
 } catch {
   console.error("Failed to clean build directory")
 }
 
 const result = await x("bun", [
   "build",
+  "--target",
+  "browser",
+  "--format",
+  "esm",
+  // "--minify",
   "--outfile",
   outfile,
   "--banner",

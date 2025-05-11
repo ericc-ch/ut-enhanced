@@ -1,3 +1,5 @@
+import invariant from "tiny-invariant"
+
 import { hideElement } from "../lib/dom"
 
 export const loginRegex = /^\/login\/index\.php$/
@@ -12,4 +14,14 @@ export function loginScript() {
   const bottomSocials = document.querySelector<HTMLElement>("#bottom-info")
   if (topSocials) hideElement(topSocials)
   if (bottomSocials) hideElement(bottomSocials)
+
+  const mainContent = document.querySelector<HTMLElement>("#page-b")
+  invariant(mainContent)
+
+  const header = mainContent.querySelector<HTMLElement>("#page-header")
+  const subheader = mainContent.querySelector<HTMLElement>("#subheader")
+  if (header) hideElement(header)
+  if (subheader) hideElement(subheader)
+
+  mainContent.style.height = "100%"
 }

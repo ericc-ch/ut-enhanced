@@ -7,4 +7,5 @@ export const meta = `
 // @version     0.0.0
 // @author      Erick Christian
 // ==/UserScript==
-`.trim()
+
+`.trimStart()
