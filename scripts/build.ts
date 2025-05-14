@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { x } from "tinyexec"
 
-import { meta } from "../src/meta"
+import { metaString } from "../src/meta"
 
 const outdir = path.join(import.meta.dirname, "..", "dist")
 const outfile = path.join(outdir, "ut-enhancer.user.js")
@@ -35,7 +35,7 @@ const result = await x("bun", [
   "--outfile",
   outfile,
   "--banner",
-  meta,
+  metaString,
   entry,
 ])
 

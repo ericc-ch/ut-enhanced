@@ -1,4 +1,4 @@
-export const meta = `
+export const metaString = `
 // ==UserScript==
 // @name        ut-enhanced
 // @namespace   Violentmonkey Scripts
