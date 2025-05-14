@@ -13,34 +13,20 @@
   },
   "author": "Erick Christian <erickchristian48@gmail.com>",
   "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/main.d.ts",
-      "default": "./dist/main.js"
-    }
-  },
-  "bin": {
-    "pkg-placeholder": "./dist/cli.js"
-  },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "dev:serve": "sirv dist",
     "lint": "eslint .",
-    "prepack": "bun run build",
     "prepare": "simple-git-hooks",
-    "release": "bumpp && bun publish --access public",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "simple-git-hooks": {
-    "pre-commit": "bunx lint-staged"
+    "pre-commit": "pnpm exec lint-staged"
   },
   "lint-staged": {
-    "*": "bun run lint --fix"
+    "*": "pnpm run lint --fix"
   },
   "dependencies": {
     "lit": "^3.3.0",
@@ -51,7 +37,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-typescript": "^12.1.2",
-    "@types/bun": "^1.2.13",
+    "@types/node": "^22.x.x",
     "bumpp": "^10.1.0",
     "eslint": "^9.26.0",
     "lint-staged": "^16.0.0",
@@ -61,5 +47,6 @@
     "simple-git-hooks": "^2.13.0",
     "sirv-cli": "^3.0.1",
     "typescript": "^5.8.3"
-  }
+  },
+  "packageManager": "pnpm@10.11.0"
 }
