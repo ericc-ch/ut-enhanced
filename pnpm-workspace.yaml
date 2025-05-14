@@ -1,2 +1,3 @@
 onlyBuiltDependencies:
+  - rolldown
   - simple-git-hooks
