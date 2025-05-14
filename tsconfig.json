@@ -4,6 +4,9 @@
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "skipLibCheck": true,
+
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
     
     "allowJs": true,
     "moduleResolution": "Bundler",

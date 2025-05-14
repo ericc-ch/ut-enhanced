@@ -1,3 +1,5 @@
+import { css, html, LitElement } from "lit"
+import { customElement } from "lit/decorators.js"
 import invariant from "tiny-invariant"
 
 import { hideElement } from "../lib/dom"
@@ -15,16 +17,34 @@ export function loginScript() {
   if (topSocials) hideElement(topSocials)
   if (bottomSocials) hideElement(bottomSocials)
 
-  const mainContent = document.querySelector<HTMLElement>("#page-b")
-  invariant(mainContent)
+  const pageB = document.querySelector<HTMLElement>("#page-b")
+  invariant(pageB, "Page B not found")
 
-  const header = mainContent.querySelector<HTMLElement>("#page-header")
-  const subheader = mainContent.querySelector<HTMLElement>("#subheader")
+  const header = pageB.querySelector<HTMLElement>("#page-header")
+  const subheader = pageB.querySelector<HTMLElement>("#subheader")
   if (header) hideElement(header)
   if (subheader) hideElement(subheader)
 
-  // Rather than this, lets create a new container using lit
-  // Then move this into the new container
-  // Better than manual re-arranging
-  mainContent.style.height = "100%"
+  const mainContent = pageB.querySelector<HTMLElement>("#main-content")
+  invariant(mainContent, "Main content not found")
+
+  const loginContainer = document.createElement("login-container")
+  loginContainer.innerHTML = `<login-form></login-form>`
+  mainContent.append(loginContainer)
+}
+
+@customElement("login-container")
+export class LoginContainer extends LitElement {
+  static styles = css`
+    div {
+      display: flex;
+      height: 100vh;
+    }
+  `
+
+  render() {
+    return html`<div>
+      <slot></slot>
+    </div> `
+  }
 }
