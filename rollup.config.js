@@ -32,7 +32,7 @@ export default defineConfig({
 })
 
 /**
- *
+ * ViolentMonkey meta builder. Used as user script banner
  * @param {Record<string, string>} record
  */
 function meta(record) {
