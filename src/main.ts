@@ -1,5 +1,3 @@
-import "@unocss/reset/tailwind.css"
-
 import "./styles/global.css"
 import { loginRegex, loginScript } from "./routes/login"
 
