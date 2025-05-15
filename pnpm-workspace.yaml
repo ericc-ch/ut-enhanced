@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
-  - '@swc/core'
-  - rolldown
+  - "@swc/core"
   - simple-git-hooks
+ignoredBuiltDependencies:
+  - esbuild
