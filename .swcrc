@@ -1,9 +1,14 @@
 {
   "$schema": "https://swc.rs/schema.json",
   "jsc": {
+    "target": "es2020",
+    "keepClassNames": true,
     "parser": {
       "syntax": "typescript",
       "decorators": true
     }
+  },
+  "module": {
+    "type": "es6"
   }
 }
