@@ -10,5 +10,10 @@ export default defineConfig({
     format: "iife",
     banner: meta,
   },
-  plugins: [del({ targets: ["dist/"] })],
+  plugins: [del({ targets: ["dist/*"] })],
+  resolve: {
+    // https://github.com/rolldown/rolldown/issues/2296#issuecomment-2669966795
+    // Rolldown does not automatically use tsconfig
+    tsconfigFilename: "tsconfig.json",
+  },
 })

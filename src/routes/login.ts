@@ -1,5 +1,3 @@
-import { css, html, LitElement } from "lit"
-import { customElement } from "lit/decorators.js"
 import invariant from "tiny-invariant"
 
 import { hideElement } from "../lib/dom"
@@ -27,24 +25,4 @@ export function loginScript() {
 
   const mainContent = pageB.querySelector<HTMLElement>("#main-content")
   invariant(mainContent, "Main content not found")
-
-  const loginContainer = document.createElement("login-container")
-  loginContainer.innerHTML = `<login-form></login-form>`
-  mainContent.append(loginContainer)
-}
-
-@customElement("login-container")
-export class LoginContainer extends LitElement {
-  static styles = css`
-    div {
-      display: flex;
-      height: 100vh;
-    }
-  `
-
-  render() {
-    return html`<div>
-      <slot></slot>
-    </div> `
-  }
 }

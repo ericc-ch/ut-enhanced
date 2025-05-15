@@ -1,4 +1,7 @@
 import { loginRegex, loginScript } from "./routes/login"
+import styles from "./styles/global.css"
+
+console.log(styles)
 
 const completionProgress = document.querySelector(
   'section[data-block="completion_progress"]',
