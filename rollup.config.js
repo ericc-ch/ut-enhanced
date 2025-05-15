@@ -1,6 +1,6 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
-import typescript from "@rollup/plugin-typescript"
+import swc from "@rollup/plugin-swc"
 import { defineConfig } from "rollup"
 import del from "rollup-plugin-delete"
 import postcss from "rollup-plugin-postcss"
@@ -15,15 +15,18 @@ export default defineConfig({
     banner: meta,
   },
   plugins: [
-    typescript(),
-    postcss(),
+    del({ targets: ["dist/*"] }),
+    replace({
+      preventAssignment: true,
+      values: {
+        "process.env.NODE_ENV": JSON.stringify("production"),
+      },
+    }),
     nodeResolve({
       browser: true,
+      extensions: [".ts", ".js"],
     }),
-    replace({
-      "process.env.NODE_ENV": JSON.stringify("production"),
-      preventAssignment: true,
-    }),
-    del({ targets: ["dist/*"] }),
+    swc(),
+    postcss(),
   ],
 })
