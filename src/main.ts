@@ -1,7 +1,7 @@
-import { loginRegex, loginScript } from "./routes/login"
-import styles from "./styles/global.css"
+import "@unocss/reset/tailwind.css"
 
-console.log(styles)
+import "./styles/global.css"
+import { loginRegex, loginScript } from "./routes/login"
 
 const completionProgress = document.querySelector(
   'section[data-block="completion_progress"]',

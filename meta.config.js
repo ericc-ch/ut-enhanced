@@ -13,6 +13,7 @@ function metaBuilder(record) {
 }
 
 export default metaBuilder({
+  grant: "none",
   name: "ut-enhanced",
   namespace: "Violentmonkey Scripts",
   description: "Make elearning.ut.ac.id better.",

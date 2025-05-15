@@ -26,7 +26,7 @@ export default defineConfig({
       browser: true,
       extensions: [".ts", ".js"],
     }),
-    swc(),
     postcss(),
+    swc(),
   ],
 })
