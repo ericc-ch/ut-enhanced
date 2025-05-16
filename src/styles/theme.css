@@ -1,0 +1,60 @@
+:root {
+  /* Polar Night */
+  --nord0: #2e3440;
+  --nord1: #3b4252;
+  --nord2: #434c5e;
+  --nord3: #4c566a;
+
+  /* Snow Storm */
+  --nord4: #d8dee9;
+  --nord5: #e5e9f0;
+  --nord6: #eceff4;
+
+  /* Frost */
+  --nord7: #8fbcbb;
+  --nord8: #88c0d0;
+  --nord9: #81a1c1;
+  --nord10: #5e81ac;
+
+  /* Aurora */
+  --nord11: #bf616a;
+  --nord12: #d08770;
+  --nord13: #ebcb8b;
+  --nord14: #a3be8c;
+  --nord15: #b48ead;
+}
+
+:root {
+  /* Background Colors */
+  --bg-1: var(--nord6);
+  --bg-2: var(--nord5);
+  --bg-3: var(--nord4);
+
+  /* Text Colors */
+  --text-1: var(--nord0);
+  --text-2: var(--nord1);
+  --text-3: var(--nord2);
+
+  /* Accent Colors */
+  --accent-1: var(--nord7);
+  --accent-2: var(--nord8);
+  --accent-3: var(--nord9);
+  --accent-4: var(--nord10);
+
+  /* State Colors */
+  --state-error: var(--nord11);
+  --state-warning: var(--nord13);
+  --state-success: var(--nord14);
+}
+
+html.dark {
+  /* Background Colors */
+  --bg-1: var(--nord1);
+  --bg-2: var(--nord2);
+  --bg-3: var(--nord3);
+
+  /* Text Colors */
+  --text-1: var(--nord6);
+  --text-2: var(--nord5);
+  --text-3: var(--nord4);
+}

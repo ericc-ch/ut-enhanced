@@ -1,3 +1,5 @@
+import { css, html, LitElement } from "lit"
+import { customElement } from "lit/decorators.js"
 import invariant from "tiny-invariant"
 
 export const loginRegex = /^\/login\/index\.php$/
@@ -14,5 +16,27 @@ export function loginScript() {
   invariant(loginForm, "Login form not found")
 
   pageOuter.remove()
-  document.body.append(loginForm)
+
+  const loginPage = document.createElement("login-page")
+  loginPage.append(loginForm)
+
+  document.body.append(loginPage)
+}
+
+@customElement("login-page")
+export class LoginPage extends LitElement {
+  render() {
+    return html`
+      <main>
+        <h1>Login Page</h1>
+        <slot></slot>
+      </main>
+    `
+  }
+
+  static styles = css`
+    :host main {
+      background-color: var(--bg-1);
+    }
+  `
 }

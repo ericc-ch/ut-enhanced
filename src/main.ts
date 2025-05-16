@@ -1,4 +1,5 @@
 import "./styles/global.css"
+import "./styles/theme.css"
 import { loginRegex, loginScript } from "./routes/login"
 
 const completionProgress = document.querySelector(
