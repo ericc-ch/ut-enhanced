@@ -4,8 +4,7 @@
     "target": "es2020",
     "keepClassNames": true,
     "parser": {
-      "syntax": "typescript",
-      "decorators": true
+      "syntax": "typescript"
     }
   },
   "module": {

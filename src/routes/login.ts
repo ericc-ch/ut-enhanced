@@ -2,6 +2,8 @@ import { css, html, LitElement } from "lit"
 import { customElement } from "lit/decorators.js"
 import invariant from "tiny-invariant"
 
+import { reset } from "../lib/styles"
+
 export const loginRegex = /^\/login\/index\.php$/
 
 export function loginScript() {
@@ -34,7 +36,7 @@ export class LoginPage extends LitElement {
     `
   }
 
-  static styles = css`
+  @reset static styles = css`
     :host main {
       background-color: var(--bg-1);
     }

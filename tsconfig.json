@@ -5,7 +5,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "experimentalDecorators": true,
     "useDefineForClassFields": true,
     
     "allowJs": true,
