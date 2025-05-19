@@ -1,4 +1,4 @@
-import { css, html, LitElement } from "lit"
+import { css, html, LitElement, type CSSResultGroup } from "lit"
 import { customElement } from "lit/decorators.js"
 import invariant from "tiny-invariant"
 
@@ -36,9 +36,12 @@ export class LoginPage extends LitElement {
     `
   }
 
-  @reset static styles = css`
+  @reset
+  static styles: CSSResultGroup = css`
     :host main {
       background-color: var(--bg-1);
     }
   `
 }
+
+console.log(LoginPage.styles)

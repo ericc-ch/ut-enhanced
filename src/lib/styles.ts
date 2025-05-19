@@ -1,20 +1,21 @@
-import { css, type CSSResult, type CSSResultGroup, type LitElement } from "lit"
+import { css, unsafeCSS, type CSSResultGroup, type LitElement } from "lit"
 
 import styleString from "../styles/reset.css"
 
-const resetStyles = css(styleString as unknown as TemplateStringsArray)
+export const resetStyles = css`
+  ${unsafeCSS(styleString)}
+`
 
 export function reset(
-  target: CSSResultGroup,
-  context: ClassFieldDecoratorContext<LitElement, CSSResult>,
+  _: undefined,
+  _context: ClassFieldDecoratorContext<typeof LitElement, CSSResultGroup>,
 ) {
-  if (!context.static)
-    throw new Error("@reset can only be used on static styles")
+  console.log({ _context })
 
-  if (Array.isArray(target)) {
-    target.push(resetStyles)
-    return target
+  return (initial: CSSResultGroup): CSSResultGroup => {
+    console.log({ initial })
+    return Array.isArray(initial) ?
+        [resetStyles, ...initial]
+      : [resetStyles, initial]
   }
-
-  return [resetStyles, target]
 }

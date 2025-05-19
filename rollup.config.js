@@ -10,6 +10,7 @@ import meta from "./meta.config.js"
 export default defineConfig({
   input: "src/main.ts",
   output: {
+    sourcemap: "inline",
     file: "dist/ut-enhanced.user.js",
     format: "iife",
     banner: meta,
