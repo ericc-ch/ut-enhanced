@@ -26,9 +26,9 @@
 
 :root {
   /* Background Colors */
-  --bg-1: var(--nord6);
+  --bg-1: var(--nord4);
   --bg-2: var(--nord5);
-  --bg-3: var(--nord4);
+  --bg-3: var(--nord6);
 
   /* Text Colors */
   --text-1: var(--nord0);
@@ -45,16 +45,23 @@
   --state-error: var(--nord11);
   --state-warning: var(--nord13);
   --state-success: var(--nord14);
+
+  /* Shadows */
+  --shadow-color: rgba(from var(--nord0), 0.1);
+
+  --shadow-1: 0 4px 8px var(--shadow-color);
+  --shadow-2: 0 8px 16px var(--shadow-color);
+  --shadow-3: 0 12px 24px var(--shadow-color);
 }
 
 html.dark {
   /* Background Colors */
-  --bg-1: var(--nord1);
-  --bg-2: var(--nord2);
-  --bg-3: var(--nord3);
+  --bg-1: var(--nord0);
+  --bg-2: var(--nord1);
+  --bg-3: var(--nord2);
 
   /* Text Colors */
-  --text-1: var(--nord6);
+  --text-1: var(--nord4);
   --text-2: var(--nord5);
-  --text-3: var(--nord4);
+  --text-3: var(--nord6);
 }

@@ -2,7 +2,7 @@ import { css, html, LitElement, type CSSResultGroup } from "lit"
 import { customElement } from "lit/decorators.js"
 import invariant from "tiny-invariant"
 
-import { reset } from "../lib/styles"
+import { resetCSS } from "../lib/styles"
 
 export const loginRegex = /^\/login\/index\.php$/
 
@@ -30,18 +30,39 @@ export class LoginPage extends LitElement {
   render() {
     return html`
       <main>
-        <h1>Login Page</h1>
-        <slot></slot>
+        <div class="login-container">
+          <slot></slot>
+        </div>
       </main>
     `
   }
 
-  @reset
-  static styles: CSSResultGroup = css`
-    :host main {
-      background-color: var(--bg-1);
-    }
-  `
+  static styles: CSSResultGroup = [
+    resetCSS,
+    css`
+      :host main {
+        background-color: var(--bg-1);
+
+        min-height: 100svh;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+      }
+
+      :host .login-container {
+        background-color: var(--bg-2);
+
+        padding-block: 2rem;
+        padding-inline: 1rem;
+
+        box-shadow: var(--shadow-1);
+        border-radius: 0.5rem;
+      }
+    `,
+  ]
 }
 
 console.log(LoginPage.styles)
