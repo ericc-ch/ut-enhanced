@@ -7,10 +7,16 @@ import postcss from "rollup-plugin-postcss"
 
 import meta from "./meta.config.js"
 
+const isProduction = process.env.NODE_ENV === "production"
+
+if (isProduction) {
+  console.log("[Rollup] Running in production mode")
+}
+
 export default defineConfig({
   input: "src/main.ts",
   output: {
-    sourcemap: "inline",
+    sourcemap: isProduction ? false : "inline",
     file: "dist/ut-enhanced.user.js",
     format: "iife",
     banner: meta,
